@@ -46,4 +46,9 @@ public class Card
       return (char)shape + "_" + (char)number + "_" + (char)color + "_" + (char)fill;
    }
 
+
+   public override string ToString()
+   {
+      return toString();
+   }
 }

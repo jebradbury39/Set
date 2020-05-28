@@ -7,7 +7,7 @@ public class CardObject : MonoBehaviour
    public Card info;
 
    private SpriteRenderer spriteRenderer;
-   private bool active = false;
+   private bool selected = false;
 
    // Start is called before the first frame update
    void Start()
@@ -18,20 +18,33 @@ public class CardObject : MonoBehaviour
    // Update is called once per frame
    void Update()
    {
-      if (gameObject.activeInHierarchy) {
-         if (!active) {
-            OnActive();
-            active = true;
+   }
+
+   public void SetActive(bool active) {
+      gameObject.SetActive(active);
+      if (active) {
+         Sprite sprite = SpritePool.instance.GetSpriteByName(info.toString());
+         if (spriteRenderer == null) {
+            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
          }
-      } else {
-         active = false;
+         spriteRenderer.sprite = sprite;
+         
+         //reset
+         selected = false;
       }
    }
 
-   void OnActive() {
-      Debug.Log("card is active: " + info.toString());
-      Sprite sprite = SpritePool.instance.GetSpriteByName(info.toString());
-      spriteRenderer.sprite = sprite;
+   void OnMouseDown() {
+      if (!selected) {
+         Player.instance.SelectCard(this);
+      } else {
+         Player.instance.DeselectCard(this);
+      }
+      selected = !selected;
    }
 
+   public void TakeCard() {
+      CardManager.instance.TakeCard(info);
+      SetActive(false);
+   }
 }

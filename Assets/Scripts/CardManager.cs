@@ -20,6 +20,8 @@ public class CardManager : MonoBehaviour
    public float startY = 1.0f;
    public float incY = 2.0f;
 
+   private bool start = false;
+
    void Awake() {
       instance = this;
    }
@@ -27,14 +29,16 @@ public class CardManager : MonoBehaviour
    // Start is called before the first frame update
    void Start()
    {
-      ResetDeck();
-      DrawCards();
    }
 
    // Update is called once per frame
    void Update()
    {
-       
+      if (!start) {
+         start = true;
+         ResetDeck();
+         DrawCards();
+      }
    }
 
 
@@ -57,6 +61,30 @@ public class CardManager : MonoBehaviour
       deck.ShuffleList();
    }
 
+   public void ReshuffleCards(List<Card> cards) {
+      foreach (Card card in cards) {
+         deck.Add(card);
+      }
+
+      deck.ShuffleList();
+   }
+
+   public void TakeCard(Card card)
+   {
+      int cardIdx = -1;
+      int i = 0;
+      foreach (Card current in currentCards) {
+         if (current.ToString() == card.ToString()) {
+            cardIdx = i;
+            break;
+         }
+         i += 1;
+      }
+      if (cardIdx != -1) {
+         currentCards.RemoveAt(cardIdx);
+      }
+   }
+
    public void DrawCards()
    {
       //draw cards until we have the max or until deck is empty
@@ -66,6 +94,12 @@ public class CardManager : MonoBehaviour
       }
 
       ArrangeCards();
+      Debug.Log("deck size: " + deck.Count);
+      string tmp = "";
+      foreach (Card card in currentCards) {
+         tmp += card + ",";
+      }
+      Debug.Log("current cards: " + tmp);
    }
 
    void ArrangeCards()
@@ -74,7 +108,7 @@ public class CardManager : MonoBehaviour
 
       //clear table
       foreach (GameObject cardObj in gameobjectCards) {
-         cardObj.SetActive(false);
+         cardObj.GetComponent<CardObject>().SetActive(false);
       }
       gameobjectCards.Clear();
 
@@ -85,7 +119,7 @@ public class CardManager : MonoBehaviour
             GameObject clone = ObjectPool.instance.GetPooledObject();
             clone.GetComponent<CardObject>().info = currentCards[gameobjectCards.Count];
             clone.transform.position = new Vector3(x, y, 0);
-            clone.SetActive(true);
+            clone.GetComponent<CardObject>().SetActive(true);
             gameobjectCards.Add(clone);
          }
       }
