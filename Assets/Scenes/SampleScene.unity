@@ -325,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 2535040711077250899, guid: 467b76b3288a96d2b91300871b433c2a,
     type: 3}
-  maxCards: 8
+  maxCards: 24
   startX: -4
   endX: 4
   incX: 1

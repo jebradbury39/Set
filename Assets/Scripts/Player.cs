@@ -42,6 +42,9 @@ public class Player : MonoBehaviour
                CardManager.instance.ReshuffleCards(giveBack);
             }
          }
+         foreach (CardObject selected in selectedCards) {
+            selected.Release();
+         }
          selectedCards.Clear();
       }
    }

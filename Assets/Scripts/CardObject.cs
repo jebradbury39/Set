@@ -36,11 +36,16 @@ public class CardObject : MonoBehaviour
 
    void OnMouseDown() {
       if (!selected) {
+         selected = true;
          Player.instance.SelectCard(this);
       } else {
+         selected = false;
          Player.instance.DeselectCard(this);
       }
-      selected = !selected;
+   }
+
+   public void Release() {
+      selected = false;
    }
 
    public void TakeCard() {

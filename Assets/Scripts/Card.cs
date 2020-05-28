@@ -28,10 +28,10 @@ public class Card
       FULL = 'F'
    }
 
-   Shape shape = Shape.TRIANGLE;
-   Number number = Number.ONE;
-   Color color = Color.RED;
-   Fill fill = Fill.NONE;
+   public Shape shape = Shape.TRIANGLE;
+   public Number number = Number.ONE;
+   public Color color = Color.RED;
+   public Fill fill = Fill.NONE;
 
    public Card(Shape shape, Number number, Color color, Fill fill)
    {

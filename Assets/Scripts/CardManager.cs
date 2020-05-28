@@ -67,6 +67,8 @@ public class CardManager : MonoBehaviour
       }
 
       deck.ShuffleList();
+
+      Debug.Log("deck size after reshuffle: " + deck.Count);
    }
 
    public void TakeCard(Card card)
@@ -94,7 +96,7 @@ public class CardManager : MonoBehaviour
       }
 
       ArrangeCards();
-      Debug.Log("deck size: " + deck.Count);
+      Debug.Log("deck size after draw: " + deck.Count);
       string tmp = "";
       foreach (Card card in currentCards) {
          tmp += card + ",";
