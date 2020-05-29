@@ -9,10 +9,24 @@ public class CardObject : MonoBehaviour
    private SpriteRenderer spriteRenderer;
    private bool selected = false;
 
+   public ParticleSystem particles;
+
+   void SetSelected(bool val)
+   {
+      selected = val;
+      if (selected) {
+         Debug.Log("play particles");
+         particles.Play();   
+      } else {
+         particles.Stop();   
+      }
+   }
+
    // Start is called before the first frame update
    void Start()
    {
-       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+      spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+      particles.Stop();   
    }
 
    // Update is called once per frame
@@ -30,22 +44,22 @@ public class CardObject : MonoBehaviour
          spriteRenderer.sprite = sprite;
          
          //reset
-         selected = false;
+         SetSelected(false);
       }
    }
 
    void OnMouseDown() {
       if (!selected) {
-         selected = true;
+         SetSelected(true);
          Player.instance.SelectCard(this);
       } else {
-         selected = false;
+         SetSelected(false);
          Player.instance.DeselectCard(this);
       }
    }
 
    public void Release() {
-      selected = false;
+      SetSelected(false);
    }
 
    public void TakeCard() {

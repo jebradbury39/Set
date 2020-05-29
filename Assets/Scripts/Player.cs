@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Player : MonoBehaviour
 
    private List<CardObject> selectedCards = new List<CardObject>();
    public List<Card> sets = new List<Card>(); //multiple of 3
+
+   public GameObject setScore;
 
    void Awake()
    {
@@ -46,6 +49,9 @@ public class Player : MonoBehaviour
             selected.Release();
          }
          selectedCards.Clear();
+
+         //update score
+         setScore.GetComponent<Text>().text = "Sets: " + (sets.Count / 3);
       }
    }
 
@@ -72,5 +78,8 @@ public class Player : MonoBehaviour
          card.TakeCard();
          sets.Add(card.info);
       }
+
+      //check if we can stil get a set
+      List<Card> set = CardManager.instance.FindSet();
    }
 }

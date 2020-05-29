@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Particles
   - 
   - 
   - 
@@ -40,4 +40,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 495418213
+    locked: 0
+  - name: Midground
+    uniqueID: 883289317
+    locked: 0
+  - name: Foreground
+    uniqueID: 2252155667
+    locked: 0
+  - name: Particles
+    uniqueID: 3848127349
     locked: 0

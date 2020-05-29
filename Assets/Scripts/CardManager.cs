@@ -41,6 +41,41 @@ public class CardManager : MonoBehaviour
       }
    }
 
+   public List<Card> FindSet()
+   {
+      List<Card> found = new List<Card>();
+      found.Add(null);
+      found.Add(null);
+      found.Add(null);
+
+      /*
+       Pick any two cards, then see if we have the third card we need
+       */
+      foreach (Card card1 in currentCards) {
+         found[0] = card1;
+         foreach (Card card2 in currentCards) {
+            if (card2 == card1) {
+               continue;
+            }
+            found[1] = card2;
+            foreach (Card card3 in currentCards) {
+               if (card3 == card2 || card3 == card1) {
+                  continue;
+               }
+               found[2] = card3;
+               //check if this is a set
+               if (SetCheck.ValidateSet(found)) {
+                  Debug.Log("At least one set is available: " + card1 + ", " + card2 + ", " + card3);
+                  return found;
+               }
+            }
+         }
+      }
+
+      Debug.Log("No sets left");
+      found.Clear();
+      return found;
+   }
 
    public void ResetDeck()
    {

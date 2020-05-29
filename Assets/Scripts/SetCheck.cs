@@ -6,16 +6,26 @@ public class SetCheck
 {
    public static bool ValidateSet(List<CardObject> cards)
    {
+      List<Card> infos = new List<Card>();
+
+      foreach (CardObject card in cards) {
+         infos.Add(card.info);
+      }
+
+      return ValidateSet(infos);
+   }
+
+   public static bool ValidateSet(List<Card> cards) {
       HashSet<Card.Shape> shapeSet = new HashSet<Card.Shape>();
       HashSet<Card.Number> numberSet = new HashSet<Card.Number>();
       HashSet<Card.Color> colorSet = new HashSet<Card.Color>();
       HashSet<Card.Fill> fillSet = new HashSet<Card.Fill>();
 
       for (int i = 0; i < 3; i++) {
-         shapeSet.Add(cards[i].info.shape);
-         numberSet.Add(cards[i].info.number);
-         colorSet.Add(cards[i].info.color);
-         fillSet.Add(cards[i].info.fill);
+         shapeSet.Add(cards[i].shape);
+         numberSet.Add(cards[i].number);
+         colorSet.Add(cards[i].color);
+         fillSet.Add(cards[i].fill);
       }
 
       /*
