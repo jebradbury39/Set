@@ -12,7 +12,7 @@ public class CardManager : MonoBehaviour
    private List<GameObject> gameobjectCards = new List<GameObject>();
 
    public GameObject cardPrefab;
-   public TMPro.TextMeshProUGUI deckCount;
+   public TextMesh deckCount;
    public TMPro.TextMeshProUGUI gameOver;
 
    public int maxCards = 16;
@@ -43,6 +43,10 @@ public class CardManager : MonoBehaviour
          StartGame();
       }
       deckCount.text = "" + deck.Count;
+   }
+
+   public void QuitGame() {
+      Application.Quit();
    }
 
    public void GameOver()
