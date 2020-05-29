@@ -10,7 +10,8 @@ public class Player : MonoBehaviour
    private List<CardObject> selectedCards = new List<CardObject>();
    public List<Card> sets = new List<Card>(); //multiple of 3
 
-   public GameObject setScore;
+   public TMPro.TextMeshProUGUI setScore;
+   public TMPro.TextMeshProUGUI setMsg;
 
    void Awake()
    {
@@ -29,13 +30,24 @@ public class Player : MonoBehaviour
        
    }
 
+   public void Reset()
+   {
+      selectedCards.Clear();
+      sets.Clear();
+      setScore.text = "Sets: 0";
+      setMsg.text = "Welcome to SET!";
+   }
+
    public void SelectCard(CardObject card)
    {
       selectedCards.Add(card);
       if (selectedCards.Count == 3) {
-         if (SetCheck.ValidateSet(selectedCards)) {
+         string err = SetCheck.ValidateSet(selectedCards);
+         if (err == "") {
+            err = "Set!";
             CollectSet(selectedCards);
          } else {
+            err = "Not a set!\n" + err;
             if (sets.Count > 0) {
                List<Card> giveBack = new List<Card>();
                for (int i = 0; i < 3; i++) {
@@ -50,8 +62,11 @@ public class Player : MonoBehaviour
          }
          selectedCards.Clear();
 
+         //update set msg
+         setMsg.text = err;
+
          //update score
-         setScore.GetComponent<Text>().text = "Sets: " + (sets.Count / 3);
+         setScore.text = "Sets: " + (sets.Count / 3);
       }
    }
 
@@ -61,7 +76,7 @@ public class Player : MonoBehaviour
       int cardIdx = -1;
       int i = 0;
       foreach (CardObject selected in selectedCards) {
-         if (selected.ToString() == card.ToString()) {
+         if (selected.info.ToString() == card.info.ToString()) {
             cardIdx = i;
             break;
          }
@@ -79,7 +94,6 @@ public class Player : MonoBehaviour
          sets.Add(card.info);
       }
 
-      //check if we can stil get a set
-      List<Card> set = CardManager.instance.FindSet();
+      CardManager.instance.SetCollected();
    }
 }

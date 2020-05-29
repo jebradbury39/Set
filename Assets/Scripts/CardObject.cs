@@ -10,12 +10,12 @@ public class CardObject : MonoBehaviour
    private bool selected = false;
 
    public ParticleSystem particles;
+   public SquishyScale hint;
 
    void SetSelected(bool val)
    {
       selected = val;
       if (selected) {
-         Debug.Log("play particles");
          particles.Play();   
       } else {
          particles.Stop();   
@@ -34,6 +34,11 @@ public class CardObject : MonoBehaviour
    {
    }
 
+   public override string ToString()
+   {
+      return info.toString();
+   }
+
    public void SetActive(bool active) {
       gameObject.SetActive(active);
       if (active) {
@@ -45,6 +50,7 @@ public class CardObject : MonoBehaviour
          
          //reset
          SetSelected(false);
+         SetHintHighlight(false);
       }
    }
 
@@ -60,10 +66,16 @@ public class CardObject : MonoBehaviour
 
    public void Release() {
       SetSelected(false);
+      SetHintHighlight(false);
    }
 
    public void TakeCard() {
       CardManager.instance.TakeCard(info);
       SetActive(false);
+   }
+
+   public void SetHintHighlight(bool val)
+   {
+      hint.run = val;
    }
 }

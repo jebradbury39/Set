@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class CardManager : MonoBehaviour
    private List<GameObject> gameobjectCards = new List<GameObject>();
 
    public GameObject cardPrefab;
+   public TMPro.TextMeshProUGUI deckCount;
+   public TMPro.TextMeshProUGUI gameOver;
 
    public int maxCards = 16;
    public float startX = -4.0f;
@@ -21,6 +24,7 @@ public class CardManager : MonoBehaviour
    public float incY = 2.0f;
 
    private bool start = false;
+   private List<Card> hintSet = new List<Card>();
 
    void Awake() {
       instance = this;
@@ -36,9 +40,33 @@ public class CardManager : MonoBehaviour
    {
       if (!start) {
          start = true;
-         ResetDeck();
-         DrawCards();
+         StartGame();
       }
+      deckCount.text = "" + deck.Count;
+   }
+
+   public void GameOver()
+   {
+      //clear the rest of the cards
+      deck.Clear();
+      currentCards.Clear();
+      ClearTable();
+
+      //Display message
+      gameOver.gameObject.SetActive(true);
+   }
+
+   public void StartGame()
+   {
+      //hide game over message
+      gameOver.gameObject.SetActive(false);
+
+      //reset player
+      Player.instance.Reset();
+
+      //reset deck and draw cards
+      ResetDeck();
+      DrawCards();
    }
 
    public List<Card> FindSet()
@@ -64,7 +92,7 @@ public class CardManager : MonoBehaviour
                }
                found[2] = card3;
                //check if this is a set
-               if (SetCheck.ValidateSet(found)) {
+               if (SetCheck.ValidateSet(found) == "") {
                   Debug.Log("At least one set is available: " + card1 + ", " + card2 + ", " + card3);
                   return found;
                }
@@ -137,6 +165,14 @@ public class CardManager : MonoBehaviour
          tmp += card + ",";
       }
       Debug.Log("current cards: " + tmp);
+      SetCollected();
+   }
+
+   void ClearTable() {
+      foreach (GameObject cardObj in gameobjectCards) {
+         cardObj.GetComponent<CardObject>().SetActive(false);
+      }
+      gameobjectCards.Clear();
    }
 
    void ArrangeCards()
@@ -144,10 +180,7 @@ public class CardManager : MonoBehaviour
       //Lay out the current cards in a grid
 
       //clear table
-      foreach (GameObject cardObj in gameobjectCards) {
-         cardObj.GetComponent<CardObject>().SetActive(false);
-      }
-      gameobjectCards.Clear();
+      ClearTable();
 
       //reset card game objects
       
@@ -158,6 +191,35 @@ public class CardManager : MonoBehaviour
             clone.transform.position = new Vector3(x, y, 0);
             clone.GetComponent<CardObject>().SetActive(true);
             gameobjectCards.Add(clone);
+         }
+      }
+   }
+
+   public void SetCollected()
+   {
+      //check if we can stil get a set
+      hintSet = FindSet();
+      if (hintSet.Count == 0) {
+         if (deck.Count == 0) {
+            GameOver();
+         } else {
+            DrawCards();
+         }
+      }
+   }
+
+   public void HighlightHintSet()
+   {
+      if (hintSet.Count == 0) {
+         return;
+      }
+
+      //find each card's gameobject and trigger the hint hightlight
+      foreach (Card card in hintSet) {
+         foreach (GameObject obj in gameobjectCards) {
+            if (obj.GetComponent<CardObject>().info.ToString() == card.ToString()) {
+               obj.GetComponent<CardObject>().SetHintHighlight(true);
+            }
          }
       }
    }
