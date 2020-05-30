@@ -1275,8 +1275,9 @@ GameObject:
   - component: {fileID: 860656116}
   - component: {fileID: 860656115}
   - component: {fileID: 860656114}
+  - component: {fileID: 860656117}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: OptionsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1293,8 +1294,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1472619943}
   - {fileID: 1855260286}
+  - {fileID: 1472619943}
   m_Father: {fileID: 1688563515}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1365,6 +1366,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 860656112}
   m_CullTransparentMesh: 0
+--- !u!114 &860656117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860656112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b2e4784f4952cf9da1b186f5a62552d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyPanel: {fileID: 1472619942}
 --- !u!1 &1087853581
 GameObject:
   m_ObjectHideFlags: 0
@@ -1452,7 +1466,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1087853584}
         m_MethodName: SetOption
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1563,7 +1577,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1107581574}
         m_MethodName: SetOption
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2059,7 +2073,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1359760322}
         m_MethodName: SetOption
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2453,7 +2467,7 @@ GameObject:
   - component: {fileID: 1472619945}
   - component: {fileID: 1472619944}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: DifficultyPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2473,7 +2487,7 @@ RectTransform:
   - {fileID: 681580195}
   - {fileID: 1536520778}
   m_Father: {fileID: 860656113}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2903,7 +2917,7 @@ GameObject:
   - component: {fileID: 1855260288}
   - component: {fileID: 1855260287}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: ModePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2923,7 +2937,7 @@ RectTransform:
   - {fileID: 1139444724}
   - {fileID: 1301814124}
   m_Father: {fileID: 860656113}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3054,7 +3068,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1858569636}
         m_MethodName: SetOption
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3165,7 +3179,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1905753514}
         m_MethodName: SetOption
-        m_Mode: 1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 860656117}
+        m_MethodName: ToggleDifficulty
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

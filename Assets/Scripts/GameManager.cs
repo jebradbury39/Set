@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
          break;
       case MenuOptions.GameMode.VS:
          cardManager = vsCardManager;
+         vsCardManager.ApplyDifficulty(MenuOptions.difficulty);
          computerPlayer.SetActive(true);
          break;
       default:

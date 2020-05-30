@@ -8,9 +8,7 @@ public class ToggleScript : MonoBehaviour
    public MenuOptions.Difficulty difficulty = MenuOptions.Difficulty.INVALID;
    public MenuOptions.GameMode gamemode = MenuOptions.GameMode.INVALID;
 
-   public void SetOption() {
-      bool val = GetComponent<Toggle>().isOn;
-      Debug.Log("set option: " + val);
+   public void SetOption(bool val) {
       if (!val) {
          return;
       }
