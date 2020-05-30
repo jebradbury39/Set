@@ -5,18 +5,12 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-   public static Player instance;
-
    private List<CardObject> selectedCards = new List<CardObject>();
    public List<Card> sets = new List<Card>(); //multiple of 3
 
    public TMPro.TextMeshProUGUI setScore;
-   public TMPro.TextMeshProUGUI setMsg;
 
-   void Awake()
-   {
-      instance = this;
-   }
+   protected string scorePrefix = "";
 
    // Start is called before the first frame update
    void Start()
@@ -30,12 +24,25 @@ public class Player : MonoBehaviour
        
    }
 
-   public void Reset()
+   public virtual void SetActive(bool val)
+   {
+      setScore.gameObject.SetActive(val);
+      gameObject.SetActive(val);
+   }
+
+   protected void SetScore() {
+      setScore.text = scorePrefix + (sets.Count / 3);
+   }
+
+   public virtual void SetMsg(string msg)
+   {
+   }
+
+   public virtual void Reset()
    {
       selectedCards.Clear();
       sets.Clear();
-      setScore.text = "Sets: 0";
-      setMsg.text = "Welcome to SET!";
+      SetScore();
    }
 
    public void SelectCard(CardObject card)
@@ -46,6 +53,7 @@ public class Player : MonoBehaviour
          if (err == "") {
             err = "Set!";
             CollectSet(selectedCards);
+            GameManager.instance.computerPlayer.ResetTimer();
          } else {
             err = "Not a set!\n" + err;
             if (sets.Count > 0) {
@@ -54,7 +62,7 @@ public class Player : MonoBehaviour
                   giveBack.Add(sets[0]);
                   sets.RemoveAt(0);
                }
-               CardManager.instance.ReshuffleCards(giveBack);
+               GameManager.instance.cardManager.ReshuffleCards(giveBack);
             }
          }
          foreach (CardObject selected in selectedCards) {
@@ -63,10 +71,10 @@ public class Player : MonoBehaviour
          selectedCards.Clear();
 
          //update set msg
-         setMsg.text = err;
+         SetMsg(err);
 
          //update score
-         setScore.text = "Sets: " + (sets.Count / 3);
+         SetScore();
       }
    }
 
@@ -87,13 +95,13 @@ public class Player : MonoBehaviour
       }
    }
 
-   void CollectSet(List<CardObject> cards)
+   protected void CollectSet(List<CardObject> cards)
    {
       foreach (CardObject card in cards) {
          card.TakeCard();
          sets.Add(card.info);
       }
 
-      CardManager.instance.SetCollected();
+      GameManager.instance.cardManager.SetCollected();
    }
 }

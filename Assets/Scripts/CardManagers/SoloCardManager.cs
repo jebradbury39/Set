@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Deck : MonoBehaviour
+public class SoloCardManager : CardManager
 {
-
    // Start is called before the first frame update
    void Start()
    {
@@ -15,9 +14,5 @@ public class Deck : MonoBehaviour
    void Update()
    {
        
-   }
-
-   void OnMouseDown() {
-      GameManager.instance.cardManager.DrawCards();
    }
 }

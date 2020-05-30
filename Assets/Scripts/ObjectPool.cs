@@ -9,24 +9,21 @@ public class ObjectPool : MonoBehaviour
    public int pooledAmount = 81;
    public bool willGrow = true;
 
-   List<GameObject> pooledObjects;
+   List<GameObject> pooledObjects = new List<GameObject>();
 
    void Awake() {
       instance = this;
    }
 
-   // Start is called before the first frame update
-   void Start()
-   {
-      pooledObjects = new List<GameObject>();
-      for (int i = 0; i < pooledAmount; i++) {
-         GameObject obj = (GameObject)Instantiate(pooledObject);
-         obj.SetActive(false);
-         pooledObjects.Add(obj);
-      }
-   }
-
    public GameObject GetPooledObject() {
+      if (pooledObjects.Count == 0) {
+         for (int i = 0; i < pooledAmount; i++) {
+            GameObject obj = (GameObject)Instantiate(pooledObject);
+            obj.SetActive(false);
+            pooledObjects.Add(obj);
+         }
+      }
+
       for (int i = 0; i < pooledObjects.Count; i++) {
          if (!pooledObjects[i].activeInHierarchy) {
             return pooledObjects[i];

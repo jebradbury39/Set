@@ -5,72 +5,48 @@ using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
-   public static CardManager instance;
-
    private List<Card> deck = new List<Card>();
    private List<Card> currentCards = new List<Card>();
    private List<GameObject> gameobjectCards = new List<GameObject>();
 
    public GameObject cardPrefab;
    public TextMesh deckCount;
-   public TMPro.TextMeshProUGUI gameOver;
 
    public int maxCards = 16;
    public float startX = -4.0f;
    public float endX = 4.0f;
    public float incX = 1.0f;
 
-   public float startY = 1.0f;
-   public float incY = 2.0f;
+   public float startY = 0.0f;
+   public float incY = 1.5f;
 
-   private bool start = false;
    private List<Card> hintSet = new List<Card>();
 
-   void Awake() {
-      instance = this;
+   public void SetActive(bool val)
+   {
+      gameObject.SetActive(val);
    }
 
-   // Start is called before the first frame update
-   void Start()
+   void SetDeckCount()
    {
-   }
-
-   // Update is called once per frame
-   void Update()
-   {
-      if (!start) {
-         start = true;
-         StartGame();
-      }
       deckCount.text = "" + deck.Count;
-   }
-
-   public void QuitGame() {
-      Application.Quit();
    }
 
    public void GameOver()
    {
       //clear the rest of the cards
       deck.Clear();
+      SetDeckCount();
       currentCards.Clear();
       ClearTable();
-
-      //Display message
-      gameOver.gameObject.SetActive(true);
    }
 
    public void StartGame()
    {
-      //hide game over message
-      gameOver.gameObject.SetActive(false);
-
-      //reset player
-      Player.instance.Reset();
-
       //reset deck and draw cards
       ResetDeck();
       DrawCards();
+      SetDeckCount();
    }
 
    public List<Card> FindSet()
@@ -126,6 +102,7 @@ public class CardManager : MonoBehaviour
 
       //now shuffle
       deck.ShuffleList();
+      SetDeckCount();
    }
 
    public void ReshuffleCards(List<Card> cards) {
@@ -134,8 +111,7 @@ public class CardManager : MonoBehaviour
       }
 
       deck.ShuffleList();
-
-      Debug.Log("deck size after reshuffle: " + deck.Count);
+      SetDeckCount();
    }
 
    public void TakeCard(Card card)
@@ -163,13 +139,12 @@ public class CardManager : MonoBehaviour
       }
 
       ArrangeCards();
-      Debug.Log("deck size after draw: " + deck.Count);
       string tmp = "";
       foreach (Card card in currentCards) {
          tmp += card + ",";
       }
-      Debug.Log("current cards: " + tmp);
       SetCollected();
+      SetDeckCount();
    }
 
    void ClearTable() {
@@ -205,11 +180,24 @@ public class CardManager : MonoBehaviour
       hintSet = FindSet();
       if (hintSet.Count == 0) {
          if (deck.Count == 0) {
-            GameOver();
+            GameManager.instance.GameOver();
          } else {
             DrawCards();
          }
       }
+   }
+
+   public List<CardObject> GetHintSetObj()
+   {
+      List<CardObject> hintobj = new List<CardObject>();
+      foreach (Card card in hintSet) {
+         foreach (GameObject obj in gameobjectCards) {
+            if (obj.GetComponent<CardObject>().info.ToString() == card.ToString()) {
+               hintobj.Add(obj.GetComponent<CardObject>());
+            }
+         }
+      }
+      return hintobj;
    }
 
    public void HighlightHintSet()
@@ -219,12 +207,8 @@ public class CardManager : MonoBehaviour
       }
 
       //find each card's gameobject and trigger the hint hightlight
-      foreach (Card card in hintSet) {
-         foreach (GameObject obj in gameobjectCards) {
-            if (obj.GetComponent<CardObject>().info.ToString() == card.ToString()) {
-               obj.GetComponent<CardObject>().SetHintHighlight(true);
-            }
-         }
+      foreach (CardObject card in GetHintSetObj()) {
+         card.SetHintHighlight(true);
       }
    }
 }

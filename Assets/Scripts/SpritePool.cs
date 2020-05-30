@@ -12,13 +12,11 @@ public class SpritePool : MonoBehaviour
       instance = this;
    }
 
-   // Start is called before the first frame update
-   void Start()
-   {
-      spriteArray = Resources.LoadAll<Sprite>("Images/Cards/");
-   }
-
    public Sprite GetSpriteByName(string name) {
+      if (spriteArray == null) {
+         spriteArray = Resources.LoadAll<Sprite>("Images/Cards/");
+      }
+
       foreach (Sprite sprite in spriteArray) {
          if (sprite.name == name) {
             return sprite;

@@ -12,7 +12,7 @@ public class CardObject : MonoBehaviour
    public ParticleSystem particles;
    public SquishyScale hint;
 
-   void SetSelected(bool val)
+   public void SetSelected(bool val)
    {
       selected = val;
       if (selected) {
@@ -54,13 +54,14 @@ public class CardObject : MonoBehaviour
       }
    }
 
+   //only human player will trigger mouse clicks
    void OnMouseDown() {
       if (!selected) {
          SetSelected(true);
-         Player.instance.SelectCard(this);
+         GameManager.instance.humanPlayer.SelectCard(this);
       } else {
          SetSelected(false);
-         Player.instance.DeselectCard(this);
+         GameManager.instance.humanPlayer.DeselectCard(this);
       }
    }
 
@@ -70,7 +71,7 @@ public class CardObject : MonoBehaviour
    }
 
    public void TakeCard() {
-      CardManager.instance.TakeCard(info);
+      GameManager.instance.cardManager.TakeCard(info);
       SetActive(false);
    }
 
