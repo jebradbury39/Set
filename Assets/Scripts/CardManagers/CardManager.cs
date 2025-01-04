@@ -11,6 +11,7 @@ public class CardManager : MonoBehaviour
 
    public GameObject cardPrefab;
    public TextMesh deckCount;
+   public GameObject tableObj;
 
    public int maxCards = 16;
    public float startX = -4.0f;
@@ -162,10 +163,11 @@ public class CardManager : MonoBehaviour
       ClearTable();
 
       //reset card game objects
-      
-      for (float y = startY; gameobjectCards.Count < currentCards.Count; y += incY) {
-         for (float x = startX; x < endX && gameobjectCards.Count < currentCards.Count; x += incX) {
+      float scale = tableObj.transform.localScale.x;
+      for (float y = startY * scale; gameobjectCards.Count < currentCards.Count; y += incY * scale) {
+         for (float x = startX * scale; x < endX && gameobjectCards.Count < currentCards.Count; x += incX * scale) {
             GameObject clone = ObjectPool.instance.GetPooledObject();
+            clone.transform.parent = tableObj.transform;
             clone.GetComponent<CardObject>().info = currentCards[gameobjectCards.Count];
             clone.transform.position = new Vector3(x, y, 0);
             clone.GetComponent<CardObject>().SetActive(true);

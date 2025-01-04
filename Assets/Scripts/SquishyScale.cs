@@ -5,6 +5,7 @@ using UnityEngine;
 public class SquishyScale : MonoBehaviour
 {
    public bool run = false;
+   public float defaultScale = 1.0f;
 
    // Start is called before the first frame update
    void Start()
@@ -15,9 +16,9 @@ public class SquishyScale : MonoBehaviour
    // Update is called once per frame
    void Update()
    {
-      float scale = 1.0f;
+      float scale = defaultScale;
       if (run) {
-         scale = Mathf.Sin(2 * Mathf.PI * Time.time * 0.5f) * 0.05f + 0.95f;
+         scale = Mathf.Sin(2 * Mathf.PI * Time.time * 0.5f) * 0.05f + 0.90f;
       }
       gameObject.transform.localScale = new Vector3(scale, scale, 1);
    }

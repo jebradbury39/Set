@@ -9,16 +9,16 @@ public class CardObject : MonoBehaviour
    private SpriteRenderer spriteRenderer;
    private bool selected = false;
 
-   public ParticleSystem particles;
+   public GameObject selectedOutline;
    public SquishyScale hint;
 
    public void SetSelected(bool val)
    {
       selected = val;
       if (selected) {
-         particles.Play();   
+         selectedOutline.SetActive(true);
       } else {
-         particles.Stop();   
+         selectedOutline.SetActive(false);
       }
    }
 
@@ -26,7 +26,7 @@ public class CardObject : MonoBehaviour
    void Start()
    {
       spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-      particles.Stop();   
+      selectedOutline.SetActive(false);
    }
 
    // Update is called once per frame

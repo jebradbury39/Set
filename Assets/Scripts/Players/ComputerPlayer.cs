@@ -12,7 +12,7 @@ public class ComputerPlayer : Player
    // Start is called before the first frame update
    void Start()
    {
-      scorePrefix = "Computer Sets: ";
+      scorePrefix = "AI Sets: ";
       SetScore();
    }
 
